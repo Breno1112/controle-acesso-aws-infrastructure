@@ -2,3 +2,5 @@
 /.terraform
 *.tfstate
 *.hcl
+/build/*
+build
