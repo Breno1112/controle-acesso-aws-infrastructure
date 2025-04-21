@@ -23,8 +23,8 @@ resource "aws_iam_role" "lambda_role" {
 }
 
 resource "aws_iam_role_policy" "lambda_policy" {
-  name        = "${var.lambda_name}-execution-role-policy"
-  role = aws_iam_role.lambda_role.arn
+  name = "${var.lambda_name}-execution-role-policy"
+  role = aws_iam_role.lambda_role.name
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
@@ -36,7 +36,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
           "iot:Publish",
         ]
         Effect   = "Allow"
-        Resource = "arn:aws:iot:us-east-1:143221775863:topic/controleacesso-nodemcu/sub"
+        Resource = "arn:aws:iot:sa-east-1:143221775863:topic/controleacesso-nodemcu/sub"
       },
     ]
   })
