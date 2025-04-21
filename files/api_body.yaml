@@ -41,13 +41,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/unlockResponse'
       x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: aws_proxy
         httpMethod: POST
-        type: mock
-        responses:
-          default:
-            statusCode: "200"
-            responseTemplates:
-              application/json: '{"success": true}'
+        uri: arn:aws:apigateway:sa-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:sa-east-1:143221775863:function:unlock-lock-lambda/invocations
+        credentials: arn:aws:iam::143221775863:role/unlock-lock-api-execution-role
 components:
   schemas:
     unlockRequest:
