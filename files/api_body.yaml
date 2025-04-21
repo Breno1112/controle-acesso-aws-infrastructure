@@ -1,0 +1,78 @@
+openapi: 3.0.1
+info:
+  title: API de fechaduras eletrônicas
+  description: |-
+    API responsável por destravar a fechadura eletrônica
+  contact:
+    email: breno.fachini@aluno.faculdadeimpacta.com.br
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+tags:
+  - name: Lock
+    description: Métodos responsáveis por interagir com a fechadura
+paths:
+  /unlock:
+    post:
+      tags:
+        - Lock
+      summary: Destrava uma fechadura
+      description: Rota responsável por destrancar uma fechadura específica
+      operationId: unlockLock
+      requestBody:
+        description: Destrava uma fechadura
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/unlockRequest'
+        required: true
+      responses:
+        '200':
+          description: Fechadura destrancada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unlockResponse'
+        '412':
+          description: Erro ao destrancar a porta. Mais detalhes no campo errorReason
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unlockResponse'
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: mock
+        responses:
+          default:
+            statusCode: "200"
+            responseTemplates:
+              application/json: '{"success": true}'
+components:
+  schemas:
+    unlockRequest:
+      type: object
+      properties:
+        lockId:
+          type: string
+          description: ID da fechadura que será destrancada
+      required:
+        - lockId
+    unlockResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indica se a operação ocorreu com sucesso. Sempre vira
+        errorReason:
+          type: string
+          description: Indica o motivo de erro da operação. Só virá preenchido caso o campo success venha preenchido com falso
+      required:
+        - success
+  requestBodies:
+    unlockRequest:
+      description: Solicitação de abertura de fechadura
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/unlockRequest'
