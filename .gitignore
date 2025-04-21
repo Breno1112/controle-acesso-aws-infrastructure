@@ -2,3 +2,7 @@
 /.terraform
 *.tfstate
 *.hcl
+/build/*
+build
+*.zip
+**/env/**
